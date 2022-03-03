@@ -1,7 +1,9 @@
 package com.bench.project.service.domain;
 
+import java.io.Serializable;
+
 public record CountKeyWordsRequest(
-    String message,
-    String keyword
-) {
+    String text,
+    String keyWord
+) implements Serializable {
 }
