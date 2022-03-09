@@ -17,13 +17,13 @@ import static com.bench.project.service.domain.OperationConstant.COUNT_WORDS;
 @EnableRabbit
 public class RabbitListenersConfiguration {
 
-    @RabbitListener(queues = COUNT_WORDS + "-queue")
+    @RabbitListener(queues = COUNT_WORDS)
     public void countWords(TextMessage obj) {
         val wordsList = obj.text().split(" ");
         log.info("Words count = " + wordsList.length);
     }
 
-    @RabbitListener(queues = COUNT_KEYWORDS + "-queue")
+    @RabbitListener(queues = COUNT_KEYWORDS)
     public void countKeyWords(TextMessage obj) {
         val pattern = Pattern.compile("[^a-zA-z0-9]?" + obj.keyword() + "[^a-zA-z0-9]");
         val count = pattern.matcher(obj.text()).results().count();
