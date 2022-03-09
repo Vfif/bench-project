@@ -9,21 +9,21 @@ import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
 
-import static com.bench.project.config.RabbitConfiguration.COUNT_KEYWORDS_QUEUE;
-import static com.bench.project.config.RabbitConfiguration.COUNT_WORDS_QUEUE;
+import static com.bench.project.service.domain.OperationConstant.COUNT_KEYWORDS;
+import static com.bench.project.service.domain.OperationConstant.COUNT_WORDS;
 
 @Slf4j
 @Component
 @EnableRabbit
 public class RabbitListenersConfiguration {
 
-    @RabbitListener(queues = COUNT_WORDS_QUEUE)
+    @RabbitListener(queues = COUNT_WORDS + "-queue")
     public void countWords(TextMessage obj) {
         val wordsList = obj.text().split(" ");
         log.info("Words count = " + wordsList.length);
     }
 
-    @RabbitListener(queues = COUNT_KEYWORDS_QUEUE)
+    @RabbitListener(queues = COUNT_KEYWORDS + "-queue")
     public void countKeyWords(TextMessage obj) {
         val pattern = Pattern.compile("[^a-zA-z0-9]?" + obj.keyword() + "[^a-zA-z0-9]");
         val count = pattern.matcher(obj.text()).results().count();

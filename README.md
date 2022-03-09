@@ -1,5 +1,7 @@
 # bench-project
+## Project for test processing
 Java 17 + Spring + RabbitMQ
+
 
 
 ## Before running
@@ -18,7 +20,7 @@ More information: https://www.rabbitmq.com/download.html
 Url - http://localhost:8080/text
 ```
 {
-    "operations" : "count-words.count-key-word",
+    "operations" : ["count-words", "count-key-word"]
     "text" : "some long text...",
     "keyWord" : "key"
 }
@@ -32,7 +34,4 @@ Url - http://localhost:8080/text
 
 Available commands for _operations_ field: 
 - count-words - count words in _text_
-- count-key-word - count how many times _ketWord_ occurs in _text_  
-
-Note: _operations_ field value must be a list of commands, delimited by dots  
-More information: https://www.rabbitmq.com/tutorials/tutorial-five-python.html
+- count-key-word - count how many times _ketWord_ occurs in _text_

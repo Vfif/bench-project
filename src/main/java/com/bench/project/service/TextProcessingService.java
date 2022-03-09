@@ -9,6 +9,11 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.function.Consumer;
+
+import static com.bench.project.service.domain.OperationConstant.COUNT_KEYWORDS;
+import static com.bench.project.service.domain.OperationConstant.COUNT_WORDS;
+
 @Service
 @RequiredArgsConstructor
 public class TextProcessingService {
@@ -26,4 +31,14 @@ public class TextProcessingService {
             it -> template.convertAndSend(exchange.getName(), it, message)
         );
     }
+
+//    private Consumer<String> getOperationConsumer(TextMessage message) {
+//        return it ->
+//            switch (it) {
+//                case COUNT_WORDS -> template.convertAndSend(exchange.getName(), it, message.text());
+//
+//                case COUNT_KEYWORDS -> template.convertAndSend(exchange.getName(), it, message);
+//                default -> throw new UnsupportedOperationException();
+//            };
+//    }
 }
