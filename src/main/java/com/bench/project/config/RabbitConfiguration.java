@@ -12,9 +12,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfiguration {
 
+    public static final String EXCHANGE = "exchange";
     public static final String COUNT_WORDS_QUEUE = "count-words-queue";
     public static final String COUNT_KEYWORDS_QUEUE = "count-keywords-queue";
-    public static final String EXCHANGE = "exchange";
+    public static final String COUNT_WORDS_ROUTING_KEY = "count-words";
+    public static final String COUNT_KEYWORDS_ROUTING_KEY = "count-keywords";
 
     @Bean
     TopicExchange exchange() {
@@ -33,11 +35,11 @@ public class RabbitConfiguration {
 
     @Bean
     Binding countWordsBinding() {
-        return BindingBuilder.bind(countWordsQueue()).to(exchange()).with("count-words");
+        return BindingBuilder.bind(countWordsQueue()).to(exchange()).with(COUNT_WORDS_ROUTING_KEY);
     }
 
     @Bean
     Binding countKeywordsBinding() {
-        return BindingBuilder.bind(countKeyWordsQueue()).to(exchange()).with("count-keywords");
+        return BindingBuilder.bind(countKeyWordsQueue()).to(exchange()).with(COUNT_KEYWORDS_ROUTING_KEY);
     }
 }
