@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 import static com.bench.project.config.OperationConstants.COUNT_KEYWORDS;
 import static com.bench.project.config.OperationConstants.COUNT_WORDS;
-import static com.bench.project.config.OperationConstants.RANDOM_LIST;
+import static com.bench.project.config.OperationConstants.RANDOM;
 
 @Slf4j
 @Component
@@ -38,11 +38,19 @@ public class RabbitListenersConfiguration {
         log.info("Keywords count = " + count);
     }
 
-    @RabbitListener(queues = RANDOM_LIST)
+    @RabbitListener(queues = RANDOM)
     public void random(TextMessage obj) {
         RandomGenerator generator = RandomGeneratorFactory.of("Xoshiro256PlusPlus").create(999);
         List<String> list = Arrays.asList(obj.text().split(" "));
-        Collections.shuffle(list, (Random) generator);
+
+        Random random = new Random(){
+            @Override
+            public int nextInt(int bound) { // only this method is used in  Collections.shuffle
+                return generator.nextInt(bound);
+            }
+        };
+
+        Collections.shuffle(list, random);
 
         log.info("Randomize list: " + list);
     }

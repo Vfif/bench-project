@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import static com.bench.project.config.OperationConstants.COUNT_KEYWORDS;
 import static com.bench.project.config.OperationConstants.COUNT_WORDS;
+import static com.bench.project.config.OperationConstants.RANDOM;
 
 @Slf4j
 @Service
@@ -26,7 +27,7 @@ public class TextProcessingService {
         request.operations().forEach(
             operation -> {
                 switch (operation) {
-                    case COUNT_WORDS, COUNT_KEYWORDS -> template.convertAndSend(operation, message);
+                    case COUNT_WORDS, COUNT_KEYWORDS, RANDOM -> template.convertAndSend(operation, message);
                     case null -> log.warn("Null operation not supported");
                     case default -> log.warn("Operation not supported: " + operation);
                 }
