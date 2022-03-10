@@ -6,9 +6,12 @@ import java.util.List;
 public class OperationConstants {
     public static final String COUNT_WORDS = "count-words";
     public static final String COUNT_KEYWORDS = "count-keywords";
-    public static final String RANDOM = "random";
+    public static final String RANDOM_LIST = "random-list";
 
     // to dynamically create Queue and Binding beans
     // need to add queue name to this list
-    public static final List<String> list = Arrays.asList(COUNT_WORDS, COUNT_KEYWORDS, RANDOM);
+    public static final List<String> list = Arrays.asList(
+        COUNT_WORDS,
+        COUNT_KEYWORDS,
+        RANDOM_LIST);
 }
