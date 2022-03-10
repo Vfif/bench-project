@@ -17,9 +17,8 @@ public class TextProcessingService {
 
     public void process(ProcessTextRequest request) {
 
-        val message = new TextMessage(request.text(), request.keyword());
-        request.operations().forEach(
-            it -> template.convertAndSend(it, message)
-        );
+        val message = new TextMessage(request.text(), request.extraInfo());
+        String operationsString = String.join(".", request.operations());
+        template.convertAndSend(operationsString, message);
     }
 }
