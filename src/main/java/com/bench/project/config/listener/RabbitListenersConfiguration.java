@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
 
-import static com.bench.project.service.domain.OperationConstant.COUNT_KEYWORDS;
-import static com.bench.project.service.domain.OperationConstant.COUNT_WORDS;
+import static com.bench.project.config.OperationConstants.COUNT_KEYWORDS;
+import static com.bench.project.config.OperationConstants.COUNT_WORDS;
 
 @Slf4j
 @Component
