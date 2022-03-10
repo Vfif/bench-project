@@ -1,7 +1,6 @@
 # bench-project
-## Project for test processing
+## Project for text processing
 Java 17 + Spring + RabbitMQ
-
 
 
 ## Before running
@@ -20,9 +19,9 @@ More information: https://www.rabbitmq.com/download.html
 Url - http://localhost:8080/text
 ```
 {
-    "operations" : ["count-words", "count-key-word"]
+    "operations" : ["count-words", "count-keywords"]
     "text" : "some long text...",
-    "keyWord" : "key"
+    "extraInfo" : { "keyword" : "long" }
 }
 ```
 
@@ -30,8 +29,9 @@ Url - http://localhost:8080/text
 
 - _operations_ - process text with given commands  
 - _text_ - source text to be processed
-- _keyWord_ - need for count-key-word command (read below)
+- _extraInfo_ - auxiliary information for _operations_
 
 Available commands for _operations_ field: 
 - count-words - count words in _text_
-- count-key-word - count how many times _ketWord_ occurs in _text_
+- count-keywords - count how many times _keyword_ (set in _extraInfo_) occurs in _text_
+- random - reorder words in text
