@@ -27,11 +27,51 @@ Url - http://localhost:8080/text
 
 ### Fields description
 
-- _operations_ - process text with given commands  
+- _operations_ - process text with given commands
 - _text_ - source text to be processed
 - _extraInfo_ - auxiliary information for _operations_
 
-Available commands for _operations_ field: 
+Available commands for _operations_ field:
 - count-words - count words in _text_
 - count-keywords - count how many times _keyword_ (set in _extraInfo_) occurs in _text_
 - random - reorder words in text
+
+## Get Request
+
+Url - http://localhost:8080/results
+
+### Response example 
+```
+[
+    {
+        "id": "aa4c95fe-af67-4f22-b9b4-5e381038433d",
+        "operation": "count-words",
+        "keyWord": null,
+        "text": "some long text...",
+        "result": "3"
+    },
+    {
+        "id": "30025e42-105e-4339-a62c-188a0f94e6c3",
+        "operation": "count-keywords",
+        "keyWord": "long",
+        "text": "some long text...",
+        "result": "1"
+    },
+    ....
+]
+```
+
+Url - http://localhost:8080/results/{id}
+
+### Response example 
+```
+[
+    {
+        "id": "aa4c95fe-af67-4f22-b9b4-5e381038433d",
+        "operation": "count-words",
+        "keyWord": null,
+        "text": "some long text...",
+        "result": "3"
+    }
+]
+```
