@@ -12,9 +12,11 @@ public record ProcessTextRequest(
     @NotBlank
     @NotNull
     List<String> operations,
+
     @NotBlank
     @NotNull
     String text,
+
     Map<String, String> extraInfo
 ) {
 }

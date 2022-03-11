@@ -13,5 +13,6 @@ public class OperationConstants {
     public static final List<String> list = Arrays.asList(
         COUNT_WORDS,
         COUNT_KEYWORDS,
-        RANDOM);
+        RANDOM
+    );
 }
