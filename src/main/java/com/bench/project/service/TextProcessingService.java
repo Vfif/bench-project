@@ -9,9 +9,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.bench.project.config.OperationConstants.COUNT_KEYWORDS;
-import static com.bench.project.config.OperationConstants.COUNT_WORDS;
-import static com.bench.project.config.OperationConstants.RANDOM;
+import com.bench.project.config.OperationConstants;
 
 @Slf4j
 @Service
@@ -27,7 +25,7 @@ public class TextProcessingService {
         request.operations().forEach(
             operation -> {
                 switch (operation) {
-                    case COUNT_WORDS, COUNT_KEYWORDS, RANDOM -> template.convertAndSend(operation, message);
+                    case String s && OperationConstants.list.contains(s) -> template.convertAndSend(operation, message);
                     case null -> log.warn("Null operation not supported");
                     case default -> log.warn("Operation not supported: " + operation);
                 }
