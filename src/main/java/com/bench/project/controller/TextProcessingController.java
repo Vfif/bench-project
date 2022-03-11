@@ -20,7 +20,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class TextProcessingController {
 
-    @Autowired
     private final TextProcessingService service;
 
     @PostMapping("/text")
