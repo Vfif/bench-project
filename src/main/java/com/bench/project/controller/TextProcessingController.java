@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -25,7 +26,7 @@ public class TextProcessingController {
     @PostMapping("/text")
     public ResponseEntity<String> processText(@Valid @RequestBody ProcessTextRequest request) {
 
-        ProcessText processText = ProcessText.fromRequest(request);
+        ProcessText processText = ProcessText.fromRequest(UUID.randomUUID().toString(), request);
 
         log.info("Received message: " + processText);
 

@@ -15,9 +15,9 @@ public record ProcessText(
     Map<String, String> extraInfo
 ) {
 
-    public static ProcessText fromRequest(ProcessTextRequest req) {
+    public static ProcessText fromRequest(String requestId, ProcessTextRequest req) {
         return new ProcessText(
-                UUID.randomUUID().toString(),
+                requestId,
                 req.operations(),
                 req.text(),
                 req.extraInfo()
