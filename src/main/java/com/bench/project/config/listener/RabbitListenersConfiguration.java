@@ -24,34 +24,52 @@ import static com.bench.project.config.OperationConstants.RANDOM;
 @EnableRabbit
 public class RabbitListenersConfiguration {
 
+    private static final RandomGenerator generator = RandomGeneratorFactory.of("Xoshiro256PlusPlus").create(999);
+    private static final Random random = new Random() {
+        @Override
+        public int nextInt(int bound) { // only this method is used in Collections.shuffle
+            return generator.nextInt(bound);
+        }
+    };
+
     @RabbitListener(queues = COUNT_WORDS)
     public void countWords(TextMessage obj) {
+
         val wordsList = obj.text().split(" ");
+
         log.info("Words count = " + wordsList.length);
     }
 
     @RabbitListener(queues = COUNT_KEYWORDS)
     public void countKeyWords(TextMessage obj) {
-        String keyword = obj.extraInfo().get("keyword");
+
+        val extraInfo = obj.extraInfo();
+        if (extraInfo == null) {
+
+            log.warn("No extra info specified in request");
+            return;
+        }
+
+        String keyword = extraInfo.get("keyword");
+
+        if (keyword == null) {
+
+            log.warn("No keyword specified in request");
+            return;
+        }
+
         val pattern = Pattern.compile("[^a-zA-z0-9]?" + keyword + "[^a-zA-z0-9]");
         val count = pattern.matcher(obj.text()).results().count();
-        log.info("Keywords count = " + count);
+
+        log.info("Keyword '" + keyword + "' count = " + count);
     }
 
     @RabbitListener(queues = RANDOM)
     public void random(TextMessage obj) {
-        RandomGenerator generator = RandomGeneratorFactory.of("Xoshiro256PlusPlus").create(999);
+
         List<String> list = Arrays.asList(obj.text().split(" "));
-
-        Random random = new Random(){
-            @Override
-            public int nextInt(int bound) { // only this method is used in  Collections.shuffle
-                return generator.nextInt(bound);
-            }
-        };
-
         Collections.shuffle(list, random);
 
-        log.info("Randomize list: " + list);
+        log.info("Randomized list: " + list);
     }
 }
