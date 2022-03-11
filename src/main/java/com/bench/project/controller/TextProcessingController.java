@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class TextProcessingController {
     private final TextProcessingService service;
 
     @PostMapping("/text")
-    public ResponseEntity<String> processText(@RequestBody ProcessTextRequest request) {
+    public ResponseEntity<String> processText(@Valid @RequestBody ProcessTextRequest request) {
 
         log.info("Received message: " + request);
 

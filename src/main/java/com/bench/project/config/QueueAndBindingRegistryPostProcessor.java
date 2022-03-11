@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import static com.bench.project.config.RabbitConfiguration.exchange;
 
 /**
- * dynamically create Queue and Binding beans for each element in list of {@link OperationConstants}
+ * Dynamically creates Queue and Binding beans for each element in list of {@link OperationConstants}
  */
 @Component
 class QueueAndBindingRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
