@@ -1,6 +1,6 @@
 package com.bench.project.service;
 
-import com.bench.project.controller.dto.ProcessTextRequest;
+import com.bench.project.controller.dto.ProcessText;
 import com.bench.project.service.dao.LogDao;
 import com.bench.project.service.domain.LogDto;
 import com.bench.project.service.domain.TextMessage;
@@ -8,14 +8,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static com.bench.project.config.OperationConstants.COUNT_KEYWORDS;
-import static com.bench.project.config.OperationConstants.COUNT_WORDS;
-import static com.bench.project.config.OperationConstants.RANDOM;
+import static com.bench.project.config.OperationConstants.*;
 
 @Slf4j
 @Service
@@ -25,8 +23,8 @@ public class TextProcessingService {
     private final RabbitTemplate template;
     private final LogDao dao;
 
-    public void process(ProcessTextRequest request) {
-        val message = new TextMessage(request.text(), request.extraInfo());
+    public void process(ProcessText request) {
+        val message = new TextMessage(request.requestId(), request.text(), request.extraInfo());
 
         request.operations().forEach(
             operation -> {
@@ -41,5 +39,12 @@ public class TextProcessingService {
 
     public List<LogDto> getResults() {
         return dao.getAll();
+    }
+
+    public List<LogDto> getResults(String id) {
+        return dao.getAll()
+                .stream()
+                .filter(logDto -> logDto.id().equals(id))
+                .collect(Collectors.toList());
     }
 }
