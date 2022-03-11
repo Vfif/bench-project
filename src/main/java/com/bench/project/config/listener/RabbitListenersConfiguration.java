@@ -78,6 +78,6 @@ public class RabbitListenersConfiguration {
         Collections.shuffle(list, random);
 
         log.info("Randomized list: " + list);
-        dao.save(LogDto.from(obj.id(), COUNT_KEYWORDS, null, obj, list.toString()));
+        dao.save(LogDto.from(obj.id(), RANDOM, null, obj, list.toString()));
     }
 }

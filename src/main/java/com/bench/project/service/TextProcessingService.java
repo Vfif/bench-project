@@ -11,7 +11,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.bench.project.config.OperationConstants.*;
 
@@ -41,10 +40,11 @@ public class TextProcessingService {
         return dao.getAll();
     }
 
-    public List<LogDto> getResults(String id) {
-        return dao.getAll()
-                .stream()
-                .filter(logDto -> logDto.id().equals(id))
-                .collect(Collectors.toList());
+    public List<LogDto> getResultsRequestId(String id) {
+        return dao.getByRequestId(id);
+    }
+
+    public LogDto getResultsById(String id) {
+        return dao.getById(id);
     }
 }

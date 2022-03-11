@@ -6,7 +6,6 @@ import com.bench.project.service.TextProcessingService;
 import com.bench.project.service.domain.LogDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,11 +41,19 @@ public class TextProcessingController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/results/{id}")
-    public ResponseEntity<List<LogDto>> getProcessedTextById(@PathVariable String id) {
+    @GetMapping("/results/{requestId}")
+    public ResponseEntity<List<LogDto>> getProcessedTextByRequestId(@PathVariable String requestId) {
 
-        List<LogDto> results = service.getResults(id);
+        List<LogDto> results = service.getResultsRequestId(requestId);
 
         return ResponseEntity.ok(results);
+    }
+
+    @GetMapping("/result/{id}")
+    public ResponseEntity<LogDto> getProcessedTextById(@PathVariable String id) {
+
+        LogDto result = service.getResultsById(id);
+
+        return ResponseEntity.ok(result);
     }
 }

@@ -9,4 +9,8 @@ public interface LogDao {
     void save(LogDto dto);
 
     List<LogDto> getAll();
+
+    List<LogDto> getByRequestId(String requestId);
+
+    LogDto getById(String id);
 }

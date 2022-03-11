@@ -1,13 +1,15 @@
 # bench-project
-## Project for text processing
-Java 17 + Spring + RabbitMQ
 
+## Project for text processing
+
+Java 17 + Spring + RabbitMQ
 
 ## Before running
 
 Install RabbitMQ server using docker:
 
 for Linux
+
 ```
 docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.9-management
 ```
@@ -17,6 +19,7 @@ More information: https://www.rabbitmq.com/download.html
 ## Post Request
 
 Url - http://localhost:8080/text
+
 ```
 {
     "operations" : ["count-words", "count-keywords"]
@@ -32,6 +35,7 @@ Url - http://localhost:8080/text
 - _extraInfo_ - auxiliary information for _operations_
 
 Available commands for _operations_ field:
+
 - count-words - count words in _text_
 - count-keywords - count how many times _keyword_ (set in _extraInfo_) occurs in _text_
 - random - reorder words in text
@@ -40,18 +44,21 @@ Available commands for _operations_ field:
 
 Url - http://localhost:8080/results
 
-### Response example 
+### Response example
+
 ```
 [
-    {
-        "id": "aa4c95fe-af67-4f22-b9b4-5e381038433d",
+     {
+        "id": "8260cc36-583a-4c51-a205-2b8c70323f3f",
+        "requestId": "1eb6af8f-84b6-44c3-be31-d5d562852813",
         "operation": "count-words",
         "keyWord": null,
         "text": "some long text...",
         "result": "3"
     },
     {
-        "id": "30025e42-105e-4339-a62c-188a0f94e6c3",
+        "id": "222e5b7f-9d48-4967-8a2f-905fa56e5cf5",
+        "requestId": "1eb6af8f-84b6-44c3-be31-d5d562852813",
         "operation": "count-keywords",
         "keyWord": "long",
         "text": "some long text...",
@@ -61,17 +68,42 @@ Url - http://localhost:8080/results
 ]
 ```
 
-Url - http://localhost:8080/results/{id}
+Url - http://localhost:8080/results/1eb6af8f-84b6-44c3-be31-d5d562852813
 
-### Response example 
+### Response example
+
 ```
 [
     {
-        "id": "aa4c95fe-af67-4f22-b9b4-5e381038433d",
+        "id": "8260cc36-583a-4c51-a205-2b8c70323f3f",
+        "requestId": "1eb6af8f-84b6-44c3-be31-d5d562852813",
         "operation": "count-words",
         "keyWord": null,
         "text": "some long text...",
         "result": "3"
+    },
+    {
+        "id": "222e5b7f-9d48-4967-8a2f-905fa56e5cf5",
+        "requestId": "1eb6af8f-84b6-44c3-be31-d5d562852813",
+        "operation": "count-keywords",
+        "keyWord": "long",
+        "text": "some long text...",
+        "result": "1"
     }
 ]
+```
+
+Url - http://localhost:8080/result/8260cc36-583a-4c51-a205-2b8c70323f3f
+
+### Response example
+
+```
+{
+    "id": "8260cc36-583a-4c51-a205-2b8c70323f3f",
+    "requestId": "1eb6af8f-84b6-44c3-be31-d5d562852813",
+    "operation": "count-words",
+    "keyWord": null,
+    "text": "some long text...",
+    "result": "3"
+}
 ```

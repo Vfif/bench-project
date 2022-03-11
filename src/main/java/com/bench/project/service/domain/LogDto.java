@@ -1,9 +1,10 @@
 package com.bench.project.service.domain;
 
-import com.bench.project.config.OperationConstants;
+import java.util.UUID;
 
 public record LogDto(
         String id,
+        String requestId,
         String operation,
         String keyWord,
         String text,
@@ -11,12 +12,12 @@ public record LogDto(
 ) {
 
     public static LogDto from(
-            String id,
+            String requestId,
             String operation,
             String keyword,
             TextMessage message,
             String result
     ) {
-        return new LogDto(id, operation, keyword, message.text(), result);
+        return new LogDto(UUID.randomUUID().toString(), requestId, operation, keyword, message.text(), result);
     }
 }
