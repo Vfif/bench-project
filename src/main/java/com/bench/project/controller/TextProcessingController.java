@@ -44,6 +44,8 @@ public class TextProcessingController {
     @GetMapping("/results/{requestId}")
     public ResponseEntity<List<LogDto>> getProcessedTextByRequestId(@PathVariable String requestId) {
 
+        log.info("Received request id: " + requestId);
+
         List<LogDto> results = service.getResultsRequestId(requestId);
 
         return ResponseEntity.ok(results);
@@ -51,6 +53,8 @@ public class TextProcessingController {
 
     @GetMapping("/result/{id}")
     public ResponseEntity<LogDto> getProcessedTextById(@PathVariable String id) {
+
+        log.info("Received id: " + id);
 
         LogDto result = service.getResultsById(id);
 
