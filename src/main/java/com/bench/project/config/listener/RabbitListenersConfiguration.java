@@ -1,6 +1,9 @@
 package com.bench.project.config.listener;
 
+import com.bench.project.service.dao.LogDao;
+import com.bench.project.service.domain.LogDto;
 import com.bench.project.service.domain.TextMessage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
@@ -15,14 +18,15 @@ import java.util.random.RandomGenerator;
 import java.util.random.RandomGeneratorFactory;
 import java.util.regex.Pattern;
 
-import static com.bench.project.config.OperationConstants.COUNT_KEYWORDS;
-import static com.bench.project.config.OperationConstants.COUNT_WORDS;
-import static com.bench.project.config.OperationConstants.RANDOM;
+import static com.bench.project.config.OperationConstants.*;
 
 @Slf4j
 @Component
 @EnableRabbit
+@RequiredArgsConstructor
 public class RabbitListenersConfiguration {
+
+    private final LogDao dao;
 
     private static final RandomGenerator generator = RandomGeneratorFactory.of("Xoshiro256PlusPlus").create(999);
     private static final Random random = new Random() {
@@ -37,7 +41,9 @@ public class RabbitListenersConfiguration {
 
         val wordsList = obj.text().split(" ");
 
-        log.info("Words count = " + wordsList.length);
+        int count = wordsList.length;
+        log.info("Words count = " + count);
+        dao.save(LogDto.from(obj.id(), COUNT_WORDS, null, obj, String.valueOf(count)));
     }
 
     @RabbitListener(queues = COUNT_KEYWORDS)
@@ -62,6 +68,7 @@ public class RabbitListenersConfiguration {
         val count = pattern.matcher(obj.text()).results().count();
 
         log.info("Keyword '" + keyword + "' count = " + count);
+        dao.save(LogDto.from(obj.id(), COUNT_KEYWORDS, keyword, obj, String.valueOf(count)));
     }
 
     @RabbitListener(queues = RANDOM)
@@ -71,5 +78,6 @@ public class RabbitListenersConfiguration {
         Collections.shuffle(list, random);
 
         log.info("Randomized list: " + list);
+        dao.save(LogDto.from(obj.id(), RANDOM, null, obj, list.toString()));
     }
 }

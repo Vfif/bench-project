@@ -12,8 +12,10 @@ import java.util.Map;
 public record ProcessTextRequest(
     @NotEmpty
     List<String> operations,
+
     @NotBlank
     String text,
+
     Map<String, String> extraInfo
 ) {
 }

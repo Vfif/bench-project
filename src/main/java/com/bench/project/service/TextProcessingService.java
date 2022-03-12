@@ -1,26 +1,28 @@
 package com.bench.project.service;
 
-import com.bench.project.controller.dto.ProcessTextRequest;
+import com.bench.project.config.OperationConstants;
+import com.bench.project.controller.dto.ProcessText;
+import com.bench.project.service.dao.LogDao;
+import com.bench.project.service.domain.LogDto;
 import com.bench.project.service.domain.TextMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bench.project.config.OperationConstants;
+import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class TextProcessingService {
 
-    @Autowired
     private final RabbitTemplate template;
+    private final LogDao dao;
 
-    public void process(ProcessTextRequest request) {
-        val message = new TextMessage(request.text(), request.extraInfo());
+    public void process(ProcessText request) {
+        val message = new TextMessage(request.requestId(), request.text(), request.extraInfo());
 
         request.operations().forEach(
             operation -> {
@@ -31,5 +33,17 @@ public class TextProcessingService {
                 }
             }
         );
+    }
+
+    public List<LogDto> getResults() {
+        return dao.getAll();
+    }
+
+    public List<LogDto> getResultsRequestId(String id) {
+        return dao.getByRequestId(id);
+    }
+
+    public LogDto getResultsById(String id) {
+        return dao.getById(id);
     }
 }
