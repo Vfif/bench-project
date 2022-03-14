@@ -9,10 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
-
-import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -24,7 +23,7 @@ public class TextProcessingController {
     @PostMapping("/text")
     public ResponseEntity<String> processText(@Valid @RequestBody ProcessTextRequest request) {
 
-        ProcessText processText = ProcessText.fromRequest(UUID.randomUUID().toString(), request);
+        var processText = ProcessText.fromRequest(UUID.randomUUID().toString(), request);
 
         log.info("Received message: " + processText);
 
@@ -36,7 +35,7 @@ public class TextProcessingController {
     @GetMapping("/results")
     public ResponseEntity<List<LogDto>> getProcessedText() {
 
-        List<LogDto> results = service.getResults();
+        var results = service.getResults();
 
         return ResponseEntity.ok(results);
     }
@@ -46,7 +45,7 @@ public class TextProcessingController {
 
         log.info("Received request id: " + requestId);
 
-        List<LogDto> results = service.getResultsRequestId(requestId);
+        var results = service.getResultsRequestId(requestId);
 
         return ResponseEntity.ok(results);
     }
@@ -56,7 +55,7 @@ public class TextProcessingController {
 
         log.info("Received id: " + id);
 
-        LogDto result = service.getResultsById(id);
+        var result = service.getResultsById(id);
 
         return ResponseEntity.ok(result);
     }
