@@ -42,7 +42,7 @@ public class RabbitListenersConfiguration {
 
         int count = wordsList.length;
         log.info("Words count = " + count);
-        dao.save(LogDto.from(obj.id(), COUNT_WORDS, null, obj, String.valueOf(count)));
+        dao.save(LogDto.from(obj.id(), COUNT_WORDS, obj.extraInfo(), obj, String.valueOf(count)));
     }
 
     @RabbitListener(queues = COUNT_KEYWORDS)
@@ -67,7 +67,7 @@ public class RabbitListenersConfiguration {
         var count = pattern.matcher(obj.text()).results().count();
 
         log.info("Keyword '" + keyword + "' count = " + count);
-        dao.save(LogDto.from(obj.id(), COUNT_KEYWORDS, keyword, obj, String.valueOf(count)));
+        dao.save(LogDto.from(obj.id(), COUNT_KEYWORDS, extraInfo, obj, String.valueOf(count)));
     }
 
     @RabbitListener(queues = RANDOM)
@@ -77,6 +77,6 @@ public class RabbitListenersConfiguration {
         Collections.shuffle(list, random);
 
         log.info("Randomized list: " + list);
-        dao.save(LogDto.from(obj.id(), RANDOM, null, obj, list.toString()));
+        dao.save(LogDto.from(obj.id(), RANDOM, obj.extraInfo(), obj, list.toString()));
     }
 }
