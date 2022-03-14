@@ -5,7 +5,6 @@ import com.bench.project.service.domain.LogDto;
 import com.bench.project.service.domain.TextMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -39,17 +38,17 @@ public class RabbitListenersConfiguration {
     @RabbitListener(queues = COUNT_WORDS)
     public void countWords(TextMessage obj) {
 
-        val wordsList = obj.text().split(" ");
+        var wordsList = obj.text().split(" ");
 
         int count = wordsList.length;
         log.info("Words count = " + count);
-        dao.save(LogDto.from(obj.id(), COUNT_WORDS, null, obj, String.valueOf(count)));
+        dao.save(LogDto.from(obj.id(), COUNT_WORDS, obj.extraInfo(), obj, String.valueOf(count)));
     }
 
     @RabbitListener(queues = COUNT_KEYWORDS)
     public void countKeyWords(TextMessage obj) {
 
-        val extraInfo = obj.extraInfo();
+        var extraInfo = obj.extraInfo();
         if (extraInfo == null) {
 
             log.warn("No extra info specified in request");
@@ -64,11 +63,11 @@ public class RabbitListenersConfiguration {
             return;
         }
 
-        val pattern = Pattern.compile("[^a-zA-z0-9]?" + keyword + "[^a-zA-z0-9]");
-        val count = pattern.matcher(obj.text()).results().count();
+        var pattern = Pattern.compile("[^a-zA-z0-9]?" + keyword + "[^a-zA-z0-9]");
+        var count = pattern.matcher(obj.text()).results().count();
 
         log.info("Keyword '" + keyword + "' count = " + count);
-        dao.save(LogDto.from(obj.id(), COUNT_KEYWORDS, keyword, obj, String.valueOf(count)));
+        dao.save(LogDto.from(obj.id(), COUNT_KEYWORDS, extraInfo, obj, String.valueOf(count)));
     }
 
     @RabbitListener(queues = RANDOM)
@@ -78,6 +77,6 @@ public class RabbitListenersConfiguration {
         Collections.shuffle(list, random);
 
         log.info("Randomized list: " + list);
-        dao.save(LogDto.from(obj.id(), RANDOM, null, obj, list.toString()));
+        dao.save(LogDto.from(obj.id(), RANDOM, obj.extraInfo(), obj, list.toString()));
     }
 }

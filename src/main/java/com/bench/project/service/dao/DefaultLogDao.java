@@ -13,12 +13,12 @@ public class DefaultLogDao implements LogDao {
 
     @Override
     public void save(LogDto dto) {
-        if (storage.containsKey(dto.id())) {
-            storage.get(dto.id()).add(dto);
+        if (storage.containsKey(dto.requestId())) {
+            storage.get(dto.requestId()).add(dto);
             return;
         }
 
-        storage.put(dto.id(), List.of(dto));
+        storage.put(dto.requestId(), List.of(dto));
     }
 
     @Override

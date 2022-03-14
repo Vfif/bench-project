@@ -7,7 +7,6 @@ import com.bench.project.service.domain.LogDto;
 import com.bench.project.service.domain.TextMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class TextProcessingService {
     private final LogDao dao;
 
     public void process(ProcessText request) {
-        val message = new TextMessage(request.requestId(), request.text(), request.extraInfo());
+        var message = new TextMessage(request.requestId(), request.text(), request.extraInfo());
 
         request.operations().forEach(
             operation -> {
